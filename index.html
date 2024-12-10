@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Your Message Form</title>
+    <link rel="stylesheet" href="https://formcreator.full.io/css/webform_style.css">
+    <script src="https://formcreator.full.io/js/jquery-1.8.1.min.js"></script>
     <script>
         async function submitForm(event) {
             event.preventDefault();
@@ -25,23 +27,77 @@
                 alert('Failed to submit the form.');
             }
         }
+
+        function showDIChild(select) {
+            const id = select.options[select.selectedIndex].id;
+            document.querySelectorAll('[id^="parentContainer_"]').forEach(el => el.style.display = 'none');
+            if (id) document.getElementById(`parentContainer_${id.split('_')[1]}`).style.display = 'block';
+        }
     </script>
 </head>
-<body>
-    <form method="post" onsubmit="submitForm(event)">
-        <label>First Name</label>
-        <input name="firstName" required>
-        <br>
-        <label>Last Name</label>
-        <input name="lastName" required>
-        <br>
-        <label>Phone</label>
-        <input name="phone" required>
-        <br>
-        <label>Email</label>
-        <input name="email" required>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
+<body onload="hideSubmit()">
+    <div class="base">
+        <form method="post" onsubmit="submitForm(event)">
+            <ul>
+                <li>
+                    <label>First Name</label>
+                    <input name="firstName" required>
+                </li>
+                <li>
+                    <label>Last Name</label>
+                    <input name="lastName" required>
+                </li>
+                <li>
+                    <label>Phone</label>
+                    <input name="phone" required>
+                </li>
+                <li>
+                    <label>Email</label>
+                    <input name="email" required>
+                </li>
+                <li>
+                    <label>Call Type</label>
+                    <select name="callType" onchange="showDIChild(this)">
+                        <option value="">Select option</option>
+                        <option id="parentstep_1">Tax | Accounting Related</option>
+                        <option id="parentstep_2">Urgent</option>
+                        <option id="parentstep_3">Childhood Tax Benefit Application</option>
+                        <option id="parentstep_4">All Else</option>
+                    </select>
+                </li>
+                <div id="parentContainer_1" style="display:none;">
+                    <li>
+                        <label>Current Client?</label>
+                        <select name="currentClient">
+                            <option value="">Select option</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </li>
+                </div>
+                <div id="parentContainer_2" style="display:none;">
+                    <li>
+                        <label>Urgency Reason</label>
+                        <textarea name="urgencyReason"></textarea>
+                    </li>
+                </div>
+                <div id="parentContainer_3" style="display:none;">
+                    <li>
+                        <label>Child Tax Query</label>
+                        <textarea name="childTaxQuery"></textarea>
+                    </li>
+                </div>
+                <div id="parentContainer_4" style="display:none;">
+                    <li>
+                        <label>Additional Details</label>
+                        <textarea name="additionalDetails"></textarea>
+                    </li>
+                </div>
+                <li>
+                    <button type="submit">Submit</button>
+                </li>
+            </ul>
+        </form>
+    </div>
 </body>
 </html>
